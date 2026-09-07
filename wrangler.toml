@@ -14,7 +14,7 @@ fallthrough = true
 [assets]
 directory = "./dist"
 binding = "ASSETS"
-not_found_handling = "single-page-application"
+not_found_handling = "404"
 
 [vars]
 # 管理员用户名在 /install 首次安装时设置；下列变量仅用于本地/CLI 兼容流程。
