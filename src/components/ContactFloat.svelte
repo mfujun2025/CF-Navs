@@ -48,7 +48,7 @@
         })
       })
 
-      const data = await response.json()
+      const data = await response.json() as { code: number }
 
       if (data.code === 200) {
         message = '提交成功，我们会尽快联系您！'
