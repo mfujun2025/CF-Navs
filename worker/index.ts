@@ -66,7 +66,11 @@ app.onError((err, c) => {
 
 // 静态文章页面：直接从 Worker 返回，绕过 Assets 的 SPA 回退
 app.get('/articles/:slug', async (c) => {
-  const slug = c.req.param('slug')
+  let slug = c.req.param('slug')
+  // 去掉 .html 扩展名
+  if (slug.endsWith('.html')) {
+    slug = slug.slice(0, -5)
+  }
   const content = getArticle(slug)
   if (content) {
     return new Response(content, {
