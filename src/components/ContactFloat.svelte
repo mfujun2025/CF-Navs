@@ -1,4 +1,4 @@
-<script> lang="ts"
+<script lang="ts">
   import { fade } from 'svelte/transition'
   let show = false
 
