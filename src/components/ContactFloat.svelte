@@ -26,8 +26,8 @@
   }
 
   async function submitForm(): Promise<void> {
-    if (!form.company || !form.contact || !form.phone) {
-      message = '请填写公司名称、联系人和联系电话'
+    if (!form.company || !form.website || !form.contact || !form.phone) {
+      message = '请填写公司名称、网址、联系人和联系电话'
       return
     }
 
@@ -88,7 +88,7 @@
           <input id="company" type="text" bind:value={form.company} placeholder="请输入公司名称" />
         </div>
         <div class="form-group">
-          <label for="website">网址</label>
+          <label for="website">网址 <span class="required">*</span></label>
           <input id="website" type="text" bind:value={form.website} placeholder="请输入公司网址" />
         </div>
         <div class="form-group">
