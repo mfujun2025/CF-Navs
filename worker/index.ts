@@ -69,6 +69,14 @@ app.all('*', async (c) => {
   }
 
   const response = await c.env.ASSETS.fetch(c.req.raw)
+
+  // 静态文件不存在时，手动返回 index.html（SPA 回退）
+  // 这样 /articles/*.html 等真实静态文件会被正确返回
+  if (response.status === 404) {
+    const indexResponse = await c.env.ASSETS.fetch(new Request('/index.html', c.req.raw))
+    return withAssetCacheHeaders(c.req.raw, indexResponse)
+  }
+
   return withAssetCacheHeaders(c.req.raw, response)
 })
 
