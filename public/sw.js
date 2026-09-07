@@ -173,6 +173,23 @@ self.addEventListener('fetch', (event) => {
   // 代价：部署新版本后用户下一次打开看到的仍是旧版，再刷一次才更新。因为
   // /assets/* 是 hash 文件名且同样被缓存，旧 HTML 引用的旧 JS/CSS 仍然取得到，
   // 不会白屏。检测到新版本时会通知页面，由页面决定怎么提示。
+
+  // 文章静态页面：network-first，不使用 app shell（否则会返回缓存的 index.html）
+  if (request.mode === 'navigate' && url.pathname.startsWith('/articles/')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone()
+            caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => undefined)
+          }
+          return response
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match(SHELL_URL))),
+    )
+    return
+  }
+
   if (request.mode === 'navigate') {
     event.respondWith(
       caches.match(SHELL_URL).then((cached) => {
