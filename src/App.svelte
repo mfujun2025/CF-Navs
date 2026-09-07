@@ -10,6 +10,7 @@
   } from '../shared/types'
   import ConfirmDialog from './components/ConfirmDialog.svelte'
   import Toast from './components/Toast.svelte'
+  import ContactFloat from './components/ContactFloat.svelte'
   import Home from './views/Home.svelte'
   import Install from './views/Install.svelte'
   import { api, getErrorMessage, isUnauthorizedError } from './lib/api'
@@ -1140,5 +1141,6 @@
       onConfirm={handleConfirmDialogConfirm}
       onCancel={handleConfirmDialogCancel}
     />
+    <ContactFloat />
   </div>
 {/if}
