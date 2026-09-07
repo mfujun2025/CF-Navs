@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { getArticle } from './articles'
 import { ErrCode } from '../shared/types'
 import { withAssetCacheHeaders } from './lib/assetHeaders'
 import { fail, ok } from './lib/response'
@@ -61,6 +62,18 @@ app.onError((err, c) => {
   }
 
   return new Response('Internal Server Error', { status: 500 })
+})
+
+// 静态文章页面：直接从 Worker 返回，绕过 Assets 的 SPA 回退
+app.get('/articles/:slug', async (c) => {
+  const slug = c.req.param('slug')
+  const content = getArticle(slug)
+  if (content) {
+    return new Response(content, {
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=3600' }
+    })
+  }
+  return c.notFound()
 })
 
 app.all('*', async (c) => {
