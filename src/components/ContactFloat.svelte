@@ -2,7 +2,7 @@
   import { fade } from 'svelte/transition'
   let show = false
 
-  function copy(text) {
+  function copy(tex: stringt) {
     navigator.clipboard.writeText(text)
   }
 </script>
